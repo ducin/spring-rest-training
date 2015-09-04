@@ -8,36 +8,20 @@ package com.training.rest.api
 
 import spock.lang.Specification
 import com.training.rest.model.Book
-import com.training.rest.RestSpringApplication
 import com.training.rest.service.BookService
 import groovy.json.JsonSlurper
-import org.springframework.test.web.servlet.setup.MockMvcBuilders
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.SpringApplicationConfiguration
-import org.springframework.test.context.web.WebAppConfiguration
-import org.springframework.test.web.servlet.MockMvc
-import org.springframework.web.context.WebApplicationContext
 
 /**
  *
  * @author Tomasz.Ducin
  */
-@SpringApplicationConfiguration(classes = RestSpringApplication)
-@WebAppConfiguration
-class BookControllerSpec extends Specification {
+class BookControllerSpec extends AbstractControllerSpec {
     
-    @Autowired
-    private WebApplicationContext applicationContext
-        
     @Autowired
     private BookService bookService
 
-    private MockMvc mockMvc
-    
     void setup() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext).build()
-        
         bookService.save(new Book("Millenium"))
         bookService.save(new Book("Ukraine"))
     }
