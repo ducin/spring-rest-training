@@ -1,0 +1,18 @@
+package com.training.rest;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = RestSpringApplication.class)
+@WebAppConfiguration
+public class RestSpringApplicationTests {
+
+	@Test
+	public void contextLoads() {
+	}
+
+}
