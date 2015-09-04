@@ -10,6 +10,7 @@ import spock.lang.Specification
 import com.training.rest.model.Book
 import com.training.rest.RestSpringApplication
 import com.training.rest.service.BookService
+import groovy.json.JsonSlurper
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.beans.factory.annotation.Autowired
@@ -45,9 +46,14 @@ class BookControllerSpec extends Specification {
         given:
             def request = MockMvcRequestBuilders.get('/books')
         when:
-            def result = mockMvc.perform(request).andReturn().response
+            def response = mockMvc.perform(request).andReturn().response
         then:
-            result.status == 200
+            response.status == 200
+        and:
+            def json = new JsonSlurper().parseText(response.contentAsString)
+            json.size == 2
+            json.title == ["Millenium", "Ukraine"]
+        println json
     }
     
 }
