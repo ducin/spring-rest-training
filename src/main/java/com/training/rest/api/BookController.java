@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import com.training.rest.model.Book;
 import com.training.rest.service.BookService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 
 /**
@@ -31,8 +34,11 @@ public class BookController {
     }
 
     @RequestMapping(value = "/books", method = RequestMethod.POST)
-    public void addBook(@RequestBody Book book) {
+    public ResponseEntity<Void> addBook(@RequestBody Book book) {
         bookService.addBook(book);
+        return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .build();
     }
 
     @RequestMapping(value = "/books/{id}", method = RequestMethod.GET)
