@@ -5,8 +5,15 @@
  */
 package com.training.rest.api;
 
+import java.net.URI;
 import java.util.List;
+import static org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder.on;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,10 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import com.training.rest.model.Book;
 import com.training.rest.service.BookService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  *
@@ -35,9 +38,16 @@ public class BookController {
 
     @RequestMapping(value = "/books", method = RequestMethod.POST)
     public ResponseEntity<Void> addBook(@RequestBody Book book) {
-        bookService.addBook(book);
+        Book saved = bookService.save(book);
+        URI location = MvcUriComponentsBuilder
+            .fromMethodCall(
+                on(BookController.class)
+                .getBook(saved.getId())
+            ).build()
+            .toUri();
+                
         return ResponseEntity
-            .status(HttpStatus.CREATED)
+            .created(location)
             .build();
     }
 
