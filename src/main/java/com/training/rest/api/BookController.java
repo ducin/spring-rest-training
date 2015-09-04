@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import com.training.rest.model.Book;
 import com.training.rest.service.BookService;
+import javax.persistence.EntityNotFoundException;
 
 /**
  *
@@ -54,7 +55,11 @@ public class BookController {
     @RequestMapping(value = "/books/{id}", method = RequestMethod.GET)
     @ResponseBody
     public Book getBook(@PathVariable(value="id") Long id) {
-        return bookService.getBook(id);
+        Book book = bookService.getBook(id);
+        if (book == null) {
+            throw new EntityNotFoundException("Book not found");
+        }
+        return book;
     }
 
     @RequestMapping(value = "/books", method = RequestMethod.GET)
