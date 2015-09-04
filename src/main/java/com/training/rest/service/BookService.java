@@ -27,8 +27,7 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public Book addBook(Long id, String title) {
-        Book book = new Book(title);
+    public Book addBook(Book book) {
         return bookRepository.save(book);
     }
 

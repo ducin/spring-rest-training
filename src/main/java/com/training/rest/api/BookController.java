@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import com.training.rest.model.Book;
 import com.training.rest.service.BookService;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  *
@@ -27,8 +28,11 @@ public class BookController {
     @Autowired
     public BookController(BookService bookService) {
         this.bookService = bookService;
-        bookService.addBook(new Long(1), "Siemanko");
-        bookService.addBook(new Long(2), "Siemaaa ho");
+    }
+
+    @RequestMapping(value = "/books", method = RequestMethod.POST)
+    public void addBook(@RequestBody Book book) {
+        bookService.addBook(book);
     }
 
     @RequestMapping(value = "/books/{id}", method = RequestMethod.GET)
